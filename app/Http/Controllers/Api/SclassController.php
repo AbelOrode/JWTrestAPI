@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Sclass;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class SclassController extends Controller
 {
@@ -31,9 +32,26 @@ class SclassController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\Response
     {
-        //
+        //Query Builder
+        $validateData = $request->validate([
+            'class_name' => 'required|unique:sclasses|max:25'
+        ]);
+
+        //Using query builder to insert the data in the database
+
+        $data = array();
+        $data['class_name'] = $request->class_name;
+        $insert = DB::table('sclasses')->insert($data);
+        return response("Inserted Successfully");
+
+
+        //Eloquent model querying
+        //$data = new Sclass();
+//        $data = $request->class_name;
+//        $data->save();
+//        return response("Record inserted Successfully");
     }
 
     /**
@@ -50,9 +68,21 @@ class SclassController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id): \Illuminate\Http\Response
     {
         //
+    }
+
+    public function show($id){
+
+        //Query Builder method
+        $show = Sclass::findOrFail($id);
+        return response()->json($show);
+
+
+        //Eloquent query builder
+//        $show = DB::table('sclasses')->where('id', $id)->first();
+//        return response()->json($show);
     }
 
     /**
@@ -62,9 +92,26 @@ class SclassController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $id): \Illuminate\Http\Response
     {
-        //
+        //Query Builder
+        $validateData = $request->validate([
+            'class_name' => 'required|unique:sclasses|max:25'
+        ]);
+
+        //Using query builder to insert the data in the database
+
+        $data = array();
+        $data['class_name'] = $request->class_name;
+        $insert = DB::table('sclasses')->where('id', $id)->update($data);
+        return response("Record updated Successfully");
+
+
+        //Eloquent model querying
+        //$data = new Sclass();
+//        $data = $request->class_name;
+//        $data->update();
+//        return response("Record Updated Successfully");
     }
 
     /**
@@ -75,6 +122,12 @@ class SclassController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //Eloquent Query builder apporach for deleting
+      Sclass::findOrFail($id)->delete();
+      return response("Record deleted successfully");
+
+      //Query builder approach for deleting
+//        DB::table('sclasses')->where('id', $id)->delete();
+//        return response('Record deleted Successfully');
     }
 }
