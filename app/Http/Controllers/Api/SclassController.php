@@ -107,11 +107,10 @@ class SclassController extends Controller
         return response("Record updated Successfully");
 
 
-        //Eloquent model querying
-        //$data = new Sclass();
-//        $data = $request->class_name;
-//        $data->update();
-//        return response("Record Updated Successfully");
+    //Eloquent model udating approach
+//        $class_name = Sclass::findOrFail($id);
+//        $subject->update($request->all());
+//        return response('Record updated successfully');
     }
 
     /**
