@@ -104,8 +104,16 @@ class StudentController extends Controller
      */
     public function destroy($id)
     {
-        //Query builder mode of deleting
+//        //Query builder mode of deleting
+//        DB::table('students')->where('id', $id)->delete();
+//
+//        return response("Record deleted successfully");
+
+        $img = DB::table('students')->where('id', $id)->first();//Get the first data
+        $image_path = $img->photo; //Get only the image data.
+
+        unlink($image_path); //Image deleted from folder
         DB::table('students')->where('id', $id)->delete();
-        return response("Record deleted successfully");
+        return response("Student data deleted successfully");
     }
 }
